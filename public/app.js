@@ -57,6 +57,22 @@ function getShareUrl(roomId) {
   return `${window.location.origin}/room/${roomId}`;
 }
 
+function hashString(value) {
+  let hash = 0;
+  for (let index = 0; index < value.length; index += 1) {
+    hash = (hash * 31 + value.charCodeAt(index)) % 360;
+  }
+  return hash;
+}
+
+function getCardTheme(card) {
+  const hue = hashString(card.id);
+  const accent = `hsl(${hue} 82% 62%)`;
+  const accentSoft = `hsl(${(hue + 24) % 360} 70% 72%)`;
+  const shadow = `hsla(${hue} 90% 55% / 0.34)`;
+  return { accent, accentSoft, shadow };
+}
+
 function joinRoom(roomId) {
   const normalizedId = roomId.trim().toUpperCase();
   if (!normalizedId) {
@@ -77,6 +93,10 @@ function renderBoard(room) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "card";
+    const theme = getCardTheme(card);
+    button.style.setProperty("--card-accent", theme.accent);
+    button.style.setProperty("--card-accent-soft", theme.accentSoft);
+    button.style.setProperty("--card-shadow", theme.shadow);
     if (flipped.has(card.id)) {
       button.classList.add("is-flipped");
     }
@@ -85,9 +105,23 @@ function renderBoard(room) {
     }
 
     button.innerHTML = `
-      <span class="card-badge">${card.badge}</span>
-      <span class="card-name">${card.name}</span>
-      <span class="card-group">${card.group}</span>
+      <span class="card-frame">
+        <span class="card-art">
+          <span class="card-glow"></span>
+          <span class="card-orb"></span>
+          <span class="card-silhouette">
+            <span class="silhouette-head"></span>
+            <span class="silhouette-body"></span>
+            <span class="silhouette-mark">${card.badge}</span>
+          </span>
+          <span class="card-ribbon">${card.group}</span>
+        </span>
+        <span class="card-info">
+          <span class="card-badge">${card.badge}</span>
+          <span class="card-name">${card.name}</span>
+          <span class="card-subtitle">Arena contender</span>
+        </span>
+      </span>
     `;
 
     button.addEventListener("click", () => {

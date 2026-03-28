@@ -247,62 +247,191 @@ button:active {
 }
 
 .card {
+  --card-accent: #6de3ff;
+  --card-accent-soft: #ffcf57;
+  --card-shadow: rgba(109, 227, 255, 0.25);
   position: relative;
-  min-height: 156px;
-  border-radius: 24px;
-  padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  min-height: 240px;
+  border-radius: 28px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05)),
-    linear-gradient(135deg, rgba(109, 227, 255, 0.25), rgba(255, 109, 143, 0.12));
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.22), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04)),
+    linear-gradient(180deg, color-mix(in srgb, var(--card-accent) 28%, #0f2548), #17294f 60%, #122241);
   text-align: left;
   overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 18px 36px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.02);
 }
 
 .card::before {
   content: "";
   position: absolute;
-  inset: auto -25% 60% auto;
-  width: 6rem;
-  height: 6rem;
+  inset: 0;
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.12), transparent 36%),
+    linear-gradient(180deg, transparent 52%, rgba(4, 11, 27, 0.46) 100%);
+  pointer-events: none;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: auto -12% -24% auto;
+  width: 9rem;
+  height: 9rem;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--card-shadow);
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+.card-frame {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-height: 240px;
+  height: 100%;
+}
+
+.card-art {
+  position: relative;
+  min-height: 152px;
+  padding: 0.9rem;
+  overflow: hidden;
+}
+
+.card-glow {
+  position: absolute;
+  inset: 14% 18% auto;
+  height: 5.5rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--card-accent) 65%, white), transparent 70%);
+  filter: blur(10px);
+  opacity: 0.9;
+}
+
+.card-orb {
+  position: absolute;
+  top: -1.2rem;
+  right: -1.2rem;
+  width: 5.2rem;
+  height: 5.2rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.card-silhouette {
+  position: absolute;
+  inset: auto 1rem 0.75rem 1rem;
+  height: 7.2rem;
+}
+
+.silhouette-head,
+.silhouette-body {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--card-accent-soft) 55%, white), var(--card-accent));
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--card-accent) 45%, transparent);
+}
+
+.silhouette-head {
+  top: 0;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 38% 38% 48% 48%;
+}
+
+.silhouette-body {
+  bottom: 0;
+  width: 6.4rem;
+  height: 4.8rem;
+  border-radius: 44% 44% 18% 18%;
+}
+
+.silhouette-mark {
+  position: absolute;
+  left: 50%;
+  top: 2.75rem;
+  transform: translateX(-50%);
+  display: inline-grid;
+  place-items: center;
+  min-width: 3rem;
+  height: 2rem;
+  padding: 0 0.55rem;
+  border-radius: 999px;
+  background: rgba(5, 13, 31, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-family: "Bungee", sans-serif;
+  font-size: 0.76rem;
+  letter-spacing: 0.03em;
+}
+
+.card-ribbon {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(5, 13, 31, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.card-info {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.95rem 1rem 1rem;
+  background: linear-gradient(180deg, rgba(9, 21, 46, 0.08), rgba(5, 13, 31, 0.44));
 }
 
 .card-badge {
   display: inline-grid;
   place-items: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 18px;
-  background: rgba(3, 12, 29, 0.65);
+  width: fit-content;
+  min-width: 2.5rem;
+  height: 1.9rem;
+  padding: 0 0.6rem;
+  border-radius: 999px;
+  background: rgba(3, 12, 29, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   font-family: "Bungee", sans-serif;
-  font-size: 1rem;
-  margin-bottom: 1rem;
+  font-size: 0.72rem;
+  margin-bottom: 0.15rem;
 }
 
 .card-name {
   display: block;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.04rem;
   line-height: 1.15;
 }
 
-.card-group {
+.card-subtitle {
   display: inline-block;
-  margin-top: 0.45rem;
-  padding: 0.4rem 0.6rem;
-  border-radius: 999px;
-  background: rgba(3, 12, 29, 0.45);
   color: var(--muted);
   font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .card.is-flipped {
-  transform: rotateX(76deg) scale(0.98);
+  transform: perspective(900px) rotateX(76deg) scale(0.98);
   transform-origin: center bottom;
-  opacity: 0.34;
-  filter: saturate(0.35);
+  opacity: 0.3;
+  filter: saturate(0.35) brightness(0.8);
 }
 
 .card.is-secret {
