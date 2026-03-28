@@ -107,13 +107,9 @@ function renderBoard(room) {
     button.innerHTML = `
       <span class="card-frame">
         <span class="card-art">
+          <img class="card-image" src="${card.image}" alt="${card.name}" loading="lazy" />
           <span class="card-glow"></span>
           <span class="card-orb"></span>
-          <span class="card-silhouette">
-            <span class="silhouette-head"></span>
-            <span class="silhouette-body"></span>
-            <span class="silhouette-mark">${card.badge}</span>
-          </span>
           <span class="card-ribbon">${card.group}</span>
         </span>
         <span class="card-info">

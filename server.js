@@ -9,42 +9,34 @@ const io = new Server(server);
 
 const PORT = process.env.PORT || 3000;
 const MAX_PLAYERS = 2;
-const BOARD_SIZE = 24;
-
 const CARD_LIBRARY = [
-  { id: "archer-queen", name: "Archer Queen", badge: "AQ", group: "Champions" },
-  { id: "golden-knight", name: "Golden Knight", badge: "GK", group: "Champions" },
-  { id: "skeleton-king", name: "Skeleton King", badge: "SK", group: "Champions" },
-  { id: "mighty-miner", name: "Mighty Miner", badge: "MM", group: "Champions" },
-  { id: "little-prince", name: "Little Prince", badge: "LP", group: "Champions" },
-  { id: "pekka", name: "P.E.K.K.A", badge: "PK", group: "Heavy" },
-  { id: "mini-pekka", name: "Mini P.E.K.K.A", badge: "MP", group: "Heavy" },
-  { id: "wizard", name: "Wizard", badge: "WZ", group: "Ranged" },
-  { id: "witch", name: "Witch", badge: "WT", group: "Ranged" },
-  { id: "electro-wizard", name: "Electro Wizard", badge: "EW", group: "Ranged" },
-  { id: "ice-wizard", name: "Ice Wizard", badge: "IW", group: "Ranged" },
-  { id: "princess", name: "Princess", badge: "PR", group: "Ranged" },
-  { id: "bandit", name: "Bandit", badge: "BD", group: "Dash" },
-  { id: "royal-ghost", name: "Royal Ghost", badge: "RG", group: "Dash" },
-  { id: "miner", name: "Miner", badge: "MN", group: "Sneaky" },
-  { id: "executioner", name: "Executioner", badge: "EX", group: "Ranged" },
-  { id: "hunter", name: "Hunter", badge: "HT", group: "Ranged" },
-  { id: "valkyrie", name: "Valkyrie", badge: "VK", group: "Melee" },
-  { id: "knight", name: "Knight", badge: "KN", group: "Melee" },
-  { id: "goblin-gang", name: "Goblin Gang", badge: "GG", group: "Swarm" },
-  { id: "dart-goblin", name: "Dart Goblin", badge: "DG", group: "Ranged" },
-  { id: "mega-knight", name: "Mega Knight", badge: "MK", group: "Heavy" },
-  { id: "ram-rider", name: "Ram Rider", badge: "RR", group: "Charge" },
-  { id: "lumberjack", name: "Lumberjack", badge: "LJ", group: "Melee" },
-  { id: "firecracker", name: "Firecracker", badge: "FC", group: "Ranged" },
-  { id: "mother-witch", name: "Mother Witch", badge: "MW", group: "Ranged" },
-  { id: "magic-archer", name: "Magic Archer", badge: "MA", group: "Ranged" },
-  { id: "dark-prince", name: "Dark Prince", badge: "DP", group: "Charge" },
-  { id: "prince", name: "Prince", badge: "PC", group: "Charge" },
-  { id: "bowler", name: "Bowler", badge: "BW", group: "Heavy" },
-  { id: "giant-skeleton", name: "Giant Skeleton", badge: "GS", group: "Heavy" },
-  { id: "electro-dragon", name: "Electro Dragon", badge: "ED", group: "Dragon" }
+  { id: "bandit", name: "Bandit", badge: "BD", group: "Dash", image: "/cards/bandit.jpg" },
+  { id: "bowler", name: "Bowler", badge: "BW", group: "Heavy", image: "/cards/BowlerCard.jpg" },
+  { id: "dark-prince", name: "Dark Prince", badge: "DP", group: "Charge", image: "/cards/darkprince.jpg" },
+  { id: "electro-wizard", name: "Electro Wizard", badge: "EW", group: "Ranged", image: "/cards/electro-wizard.jpg" },
+  { id: "electro-dragon", name: "Electro Dragon", badge: "ED", group: "Dragon", image: "/cards/ElectroDragonCard.jpg" },
+  { id: "firecracker", name: "Firecracker", badge: "FC", group: "Ranged", image: "/cards/FirecrackerCard.jpg" },
+  { id: "giant-skeleton", name: "Giant Skeleton", badge: "GS", group: "Heavy", image: "/cards/GiantSkeletonCard.jpg" },
+  { id: "goblin-gang", name: "Goblin Gang", badge: "GG", group: "Swarm", image: "/cards/GoblinGangCard.jpg" },
+  { id: "ice-wizard", name: "Ice Wizard", badge: "IW", group: "Ranged", image: "/cards/IceWizardCard.jpg" },
+  { id: "knight", name: "Knight", badge: "KN", group: "Melee", image: "/cards/KnightCard.jpg" },
+  { id: "little-prince", name: "Little Prince", badge: "LP", group: "Champions", image: "/cards/LittlePrinceCard.jpg" },
+  { id: "lumberjack", name: "Lumberjack", badge: "LJ", group: "Melee", image: "/cards/lumberjack.jpg" },
+  { id: "magic-archer", name: "Magic Archer", badge: "MA", group: "Ranged", image: "/cards/MagicArcherCard.jpg" },
+  { id: "mighty-miner", name: "Mighty Miner", badge: "MM", group: "Champions", image: "/cards/mighty-miner.jpg" },
+  { id: "miner", name: "Miner", badge: "MN", group: "Sneaky", image: "/cards/miner-full-image-v0-ew54ev8qti601.jpg" },
+  { id: "mini-pekka", name: "Mini P.E.K.K.A", badge: "MP", group: "Heavy", image: "/cards/mini-pekka.jpg" },
+  { id: "mother-witch", name: "Mother Witch", badge: "MW", group: "Ranged", image: "/cards/mother-witch.jpg" },
+  { id: "pekka", name: "P.E.K.K.A", badge: "PK", group: "Heavy", image: "/cards/PEKKACard.jpg" },
+  { id: "princess", name: "Princess", badge: "PR", group: "Ranged", image: "/cards/princess.jpg" },
+  { id: "ram-rider", name: "Ram Rider", badge: "RR", group: "Charge", image: "/cards/ram-rider.jpg" },
+  { id: "royal-ghost", name: "Royal Ghost", badge: "RG", group: "Dash", image: "/cards/RoyalGhostCard.jpg" },
+  { id: "skeleton-king", name: "Skeleton King", badge: "SK", group: "Champions", image: "/cards/SkeletonKingCard.jpg" },
+  { id: "valkyrie", name: "Valkyrie", badge: "VK", group: "Melee", image: "/cards/valkyrie.jpg" },
+  { id: "wizard", name: "Wizard", badge: "WZ", group: "Ranged", image: "/cards/WizardCard.jpg" }
 ];
+
+const BOARD_SIZE = CARD_LIBRARY.length;
 
 const rooms = new Map();
 
