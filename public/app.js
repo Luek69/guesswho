@@ -1,4 +1,7 @@
-const socket = io();
+const socket = io({
+  transports: ["websocket", "polling"],
+  reconnection: true
+});
 
 const state = {
   roomId: window.location.pathname.startsWith("/room/") ? window.location.pathname.split("/").pop().toUpperCase() : "",
@@ -13,6 +16,7 @@ const elements = {
   playerName: document.getElementById("player-name"),
   roomCode: document.getElementById("room-code"),
   createRoom: document.getElementById("create-room"),
+  connectionStatus: document.getElementById("connection-status"),
   roomTitle: document.getElementById("room-title"),
   shareLink: document.getElementById("share-link"),
   copyLink: document.getElementById("copy-link"),
@@ -34,6 +38,11 @@ function showToast(message) {
   showToast.timeoutId = setTimeout(() => {
     elements.toast.classList.add("hidden");
   }, 2200);
+}
+
+function setConnectionStatus(message, isError = false) {
+  elements.connectionStatus.textContent = message;
+  elements.connectionStatus.classList.toggle("is-error", isError);
 }
 
 function getPlayerName() {
@@ -104,6 +113,7 @@ function updateModeUi() {
 function renderRoom(room) {
   state.room = room;
   state.roomId = room.roomId;
+  state.choosingSecret = false;
 
   elements.landing.classList.add("hidden");
   elements.game.classList.remove("hidden");
@@ -137,6 +147,10 @@ function renderRoom(room) {
 
 elements.createRoom.addEventListener("click", () => {
   persistPlayerName();
+  if (!socket.connected) {
+    showToast("Still connecting to the server. Try again in a moment.");
+    return;
+  }
   socket.emit("room:create", { name: getPlayerName() });
 });
 
@@ -170,14 +184,7 @@ elements.resetGame.addEventListener("click", () => {
 });
 
 socket.on("room:created", ({ roomId }) => {
-  renderRoom({
-    roomId,
-    shareUrl: `/room/${roomId}`,
-    status: "waiting",
-    deck: [],
-    players: [],
-    self: null
-  });
+  history.replaceState({}, "", `/room/${roomId}`);
 });
 
 socket.on("room:update", (room) => {
@@ -186,6 +193,21 @@ socket.on("room:update", (room) => {
 
 socket.on("room:error", ({ message }) => {
   showToast(message);
+});
+
+socket.on("connect", () => {
+  setConnectionStatus("Connected. You can create or join a room.");
+  if (state.roomId && !state.room) {
+    joinRoom(state.roomId);
+  }
+});
+
+socket.on("connect_error", () => {
+  setConnectionStatus("Could not reach the game server. Refresh in a moment.", true);
+});
+
+socket.on("disconnect", () => {
+  setConnectionStatus("Connection lost. Reconnecting...", true);
 });
 
 if (state.roomId) {

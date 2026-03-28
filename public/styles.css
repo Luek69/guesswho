@@ -103,6 +103,16 @@ h1 {
   font-size: 1.06rem;
 }
 
+.connection-status {
+  margin: 0.75rem 0 0;
+  color: var(--cyan);
+  font-size: 0.92rem;
+}
+
+.connection-status.is-error {
+  color: var(--rose);
+}
+
 .join-form {
   display: grid;
   gap: 1rem;
